@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('thumbnail')->required();
             $table->foreignId('category_id')->nullable();
             $table->foreignId('tag_id')->nullable();
-            $table->string('body')->required();
+            $table->string('paragraph')->required();
             $table->timestamps();
         });
     }

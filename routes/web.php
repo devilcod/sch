@@ -22,6 +22,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('article-create', ArticleCreate::class)->name('article.create');
+    Route::get('article/create', ArticleCreate::class)->name('article.create');
 });
-

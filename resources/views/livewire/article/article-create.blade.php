@@ -35,8 +35,11 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="body" value="{{ __('Body') }}" />
-                <x-jet-input wire:model="body" id="body" class="block mt-1 w-full" type="text" name="body" :value="old('body')" required />
+                <x-jet-label for="paragraph" value="{{ __('Body') }}" />
+                <div wire:ignore>
+                <textarea wire:model="paragraph" id="paragraph" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" type="text" name="paragraph" required >
+                </textarea>
+            </div>
             </div>
 
             <div class="mt-4">
@@ -74,3 +77,17 @@
         </form>
     </x-jet-authentication-card>
 </div>
+@section('scripts')
+<script>
+    ClassicEditor
+                .create(document.querySelector('#paragraph'))
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+					@this.set('paragraph', editor.getData());
+                    })
+               })
+                .catch(error => {
+                    console.error(error);
+                });
+</script>
+@endsection

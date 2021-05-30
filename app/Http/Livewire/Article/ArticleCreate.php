@@ -18,16 +18,16 @@ class ArticleCreate extends Component
     public $thumbnail;
     public $category_id;
     public $tag_id;
-    public $body;
+    public $paragraph;
 
 
     protected $rules = [
         'title' => 'required',
         'slug' => 'required',
-        'thumbnail' => 'required|image',
+        'thumbnail' => 'nullable|image',
         'category_id' => 'nullable',
         'tag_id' => 'nullable',
-        'body' => 'required',
+        'paragraph' => 'required',
     ];
 
     public function addArticle()

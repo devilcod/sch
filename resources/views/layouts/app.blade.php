@@ -12,7 +12,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-
+        {{-- @fcStyles --}}
         @livewireStyles
 
         <!-- Scripts -->
@@ -41,6 +41,9 @@
 
         @stack('modals')
 
+        {{-- @fcScripts --}}
         @livewireScripts
+        <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+        @yield('scripts')
     </body>
 </html>
