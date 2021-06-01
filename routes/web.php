@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Livewire\Article\ArticleCreate;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +22,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('article/create', ArticleCreate::class)->name('article.create');
+    // Route::get('articles', [App\Http\Controllers\ArticleController::class, 'index'])->name('article.index');
+    // Route::get('article/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('article.create');
+    // Route::post('article/store', [App\Http\Controllers\ArticleController::class, 'store'])->name('article.store');
+    Route::resource('articles', ArticleController::class);
+    Route::post('images', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
 });

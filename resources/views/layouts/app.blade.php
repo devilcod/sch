@@ -35,7 +35,7 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                 @yield('content')
             </main>
         </div>
 
@@ -43,7 +43,7 @@
 
         {{-- @fcScripts --}}
         @livewireScripts
-        <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+        {{-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script> --}}
         @yield('scripts')
     </body>
 </html>
