@@ -43,7 +43,7 @@
               <td class="flex items-center px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <a href="{{ route('articles.edit', $article) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                 <span>|</span>
-                <form action="{{ route('articles.destroy', $article) }}" method="POST">
+                <form action="{{ route('articles.destroy', $article->id ) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="text-indigo-600 hover:text-indigo-900">Hapus</button>

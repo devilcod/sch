@@ -60,7 +60,7 @@ class ArticleController extends Controller
         ]);
         if($article)
         {
-            return redirect()->route('article.index');
+            return redirect()->route('articles.index');
         }
     }
 
@@ -81,9 +81,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($article)
+    public function edit(Article $article)
     {
         // $data = Article::findOrFail($article);
+        // dd($data);
         $categories = Category::all();
         $tags = Tag::all();
         return view('article-edit', compact(['article', 'categories', 'tags']));
@@ -106,10 +107,10 @@ class ArticleController extends Controller
             'paragraph'     => 'required'
         ]);
 
-        $article = article::findOrFail($article->id);
+        $article = Article::findOrFail($request->article);
 
-        if($request->file('image') == "") {
-    
+        if(!$request->file('thumbnail')) {
+
             $article->update([
                 'title'         => $request->title,
                 'thumbnail'      => $request->thumbnail,
@@ -117,27 +118,27 @@ class ArticleController extends Controller
                 'tag_id'        => $request->tag_id,
                 'paragraph'     => $request->paragraph
             ]);
-    
+
         } else {
-    
+
             //hapus old image
-            Storage::disk('local')->delete('public/thumbnails/'.$article->thumbnail);
-    
+            Storage::delete("public/thumbnails/" .$article->thumbnail);
+
             //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/thumbnails', $image->hashName());
-    
-            $blog->update([
+            $thumbnail = $request->file('thumbnail');
+            $thumbnail->storeAs('public/thumbnails/', $thumbnail->hashName());
+
+            $article->update([
                 'title'        => $request->title,
                 'thumbnail'    => $thumbnail->hashName(),
                 'category_id'  => $request->category_id,
                 'tag_id'       => $request->tag_id,
                 'paragraph'    => $request->paragraph,
             ]);
-    
+
         }
-        return back();
-    
+        return redirect()->route('articles.index');
+
     }
 
     /**
@@ -149,8 +150,10 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
-        $article->delete;
+        // dd($article);
+        Storage::delete("public/thumbnails/" .$article->thumbnail);
+        $article->delete();
 
-        return back();
+        return redirect()->route('articles.index');
     }
 }
