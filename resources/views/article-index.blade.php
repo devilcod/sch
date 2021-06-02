@@ -38,7 +38,7 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex-shrink-0 h-10 w-10">
-                <img class="h-10 w-10 rounded-full" src="{{ Storage::url('public/thumbnails/'). $article->thumbnail }}"></div>
+                <img class="h-10 w-10 rounded-full" src="{{ $article->thumbnail }}"></div>
               </td>
               <td class="flex items-center px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <a href="{{ route('articles.edit', $article) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>

@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\TemporaryFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+// use Spatie\MediaLibrary\HasMedia;
+// use Spatie\MediaLibrary\InteractsWithMedia;
+// use Spatie\MediaLibrary\toMediaCollection;
+// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ArticleController extends Controller
 {
@@ -44,20 +48,32 @@ class ArticleController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'thumbnail' => 'nullable|image|mimes:png,jpg,jpeg',
             'category_id' => 'nullable',
             'tag_id' => 'nullable',
             'paragraph' => 'required',
         ]);
-        $thumbnail = $request->file('thumbnail');
-        $thumbnail->storeAs('public/thumbnails', $thumbnail->hashName());
+        // $thumbnail = $request->file('thumbnail');
+        // $thumbnail->storeAs('public/thumbnails', $thumbnail->hashName());
         $article = Article::create([
             'title' => $request->title,
-            'thumbnail' => $thumbnail->hashName(),
             'category_id' => $request->category_id,
             'tag_id' => $request->tag_id,
             'paragraph' => $request->paragraph,
         ]);
+
+            if($request->thumbnail)
+            {
+                $temporaryFile = TemporaryFile::where('folder', $request->thumbnail)->first();
+                if($temporaryFile){
+                $thumbnail = $article->addMedia(storage_path('app/public/thumbnails/tmp/' . $request->thumbnail . '/' . $temporaryFile->filename))
+                        ->toMediaCollection('thumbnails');
+                    rmdir(storage_path('app/public/thumbnails/tmp/' . $request->thumbnail));
+                    $temporaryFile->delete();
+                }
+
+                $article->update(['thumbnail' => $thumbnail->getUrl()]);
+            }
+
         if($article)
         {
             return redirect()->route('articles.index');
@@ -122,7 +138,7 @@ class ArticleController extends Controller
         } else {
 
             //hapus old image
-            Storage::delete("public/thumbnails/" .$article->thumbnail);
+            Storage::delete($article->thumbnail);
 
             //upload new image
             $thumbnail = $request->file('thumbnail');
@@ -151,7 +167,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         // dd($article);
-        Storage::delete("public/thumbnails/" .$article->thumbnail);
+        Storage::delete($article->thumbnail);
         $article->delete();
 
         return redirect()->route('articles.index');
