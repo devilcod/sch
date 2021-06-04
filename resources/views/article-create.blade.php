@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('content')    
+@section('content')
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />
@@ -45,9 +45,9 @@
 
             <div class="mt-4">
                 <x-jet-label for="thumbnail" value="{{ __('Thumbnail') }}" />
-                <div class="flex box-content h-32 w-32 bg-gray-200 rounded-2xl">
-                    
-                </div>
+                {{-- <div class="flex box-content h-32 w-32 bg-gray-200 rounded-2xl">
+
+                </div> --}}
                 <x-jet-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail" :value="old('thumbnail')" />
             </div>
 
@@ -62,4 +62,5 @@
     @endsection
 @section('scripts')
     @include('ckeditor')
+@include('filepond')
 @endsection

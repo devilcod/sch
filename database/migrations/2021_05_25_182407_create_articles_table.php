@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title')->required();
             $table->string('slug')->required();
-            $table->string('thumbnail')->required();
+            $table->string('thumbnail')->nullable();
             $table->foreignId('category_id')->nullable();
             $table->foreignId('tag_id')->nullable();
             $table->string('paragraph')->required();

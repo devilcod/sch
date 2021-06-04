@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,4 +26,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::post('article/store', [App\Http\Controllers\ArticleController::class, 'store'])->name('article.store');
     Route::resource('articles', ArticleController::class);
     Route::post('images', [App\Http\Controllers\ImageController::class, 'store'])->name('images.store');
+    Route::post('upload', [App\Http\Controllers\FilepondController::class, 'store']);
 });
