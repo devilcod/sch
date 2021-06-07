@@ -29,8 +29,8 @@
                         <img src="{{ $logo->temporaryUrl() }}" alt="" class="rounded-full h-20 w-20 object-cover">
                         @elseif($logo)
                         <img src="{{ Storage::url('public/' . $logo) }}" alt="" class="rounded-full h-20 w-20 object-cover">
-                        @else
-                        <div class="rounded-full h-20 w-20 object-cover border border-green-400"></div>
+                        @elseif(is_null($logo))
+                        <img src="{{asset('joy.jpg')}}" alt="" class="rounded-full h-20 w-20 object-cover">
                         @endif
                     </div>
 

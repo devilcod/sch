@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Setting;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class Settings extends Component
 {
@@ -19,6 +20,7 @@ class Settings extends Component
     public $npsn;
     public $logo;
     public $newLogo;
+    protected $listeners = ['dataUpdated' => 'refresh'];
 
     // protected $rules = [
     //     'name' => 'required',
@@ -47,7 +49,7 @@ class Settings extends Component
     }
     public function updateSetting()
         {
-            $setting = Setting::first();
+            $setting = Setting::firstOrCreate();
             if($this->logo == $setting->logo){
                 $validatedData = $this->validate([
                     'name' => 'required',
@@ -74,6 +76,7 @@ class Settings extends Component
                 }
 
             $setting->update($validatedData);
+            $this->emit('dataUpdated');
         }
 
         public function updatedLogo()
@@ -82,5 +85,9 @@ class Settings extends Component
                 'logo' => 'image',
             ]);
             $this->newLogo = $this->logo->temporaryUrl();
+        }
+        public function refresh()
+        {
+            return view('livewire.settings')->with(session()->flash('flash.banner', 'Yay it works!'));
         }
 }

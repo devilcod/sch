@@ -1,10 +1,10 @@
-@extends('layouts.app')
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Create Article') }}
+        </h2>
+    </x-slot>
     <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
-
         <x-jet-validation-errors class="mb-4" />
 
         <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
@@ -27,8 +27,7 @@
 
             <div>
                 <x-jet-label for="name" value="{{ __('Tag') }}" />
-                <select class="block mt-1 w-full" id="tag_id" name="tag_id">
-                    <option value="" selected disabled>Choose One</option>
+                <select class="select2 block mt-1 w-full" id="tags" name="tags[]" multiple="multiple">
                     @foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
@@ -59,8 +58,9 @@
             </div>
         </form>
     </x-jet-authentication-card>
-    @endsection
 @section('scripts')
     @include('ckeditor')
-@include('filepond')
+    @include('filepond')
+    @include('select2')
 @endsection
+</x-app-layout>
