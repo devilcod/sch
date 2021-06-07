@@ -29,7 +29,7 @@ class SettingFactory extends Factory
             'email' => $this->faker->email,
             'accreditation' => "A",
             'npsn' => Str::random(10),
-            'logo' => "https://images.app.goo.gl/6HpEehjjeuZeNm7XA",
+            'logo' => "",
         ];
     }
 }

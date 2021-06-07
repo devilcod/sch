@@ -27,10 +27,12 @@
 
             <div>
                 <x-jet-label for="name" value="{{ __('Tag') }}" />
-                <select class="block mt-1 w-full" id="tag_id" name="tag_id">
-                    <option value="" selected disabled>Choose One</option>
+                <select class="select2 block mt-1 w-full" id="tags" name="tags[]" multiple="multiple">
+                    @foreach ($article->tags as $tag)
+                    <option selected value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    @endforeach
                     @foreach ($tags as $tag)
-                    <option value="{{ $tag->id }}" {{ $tag->id == $article->tag->id ? 'selected' : '' }}>{{ $tag->name }}</option>
+                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -44,10 +46,13 @@
 
             <div class="mt-4">
                 <x-jet-label for="thumbnail" value="{{ __('Thumbnail') }}" />
+                @if (isset($article->thumbnail))
                 <div class="flex box-content h-32 w-32 bg-gray-200 rounded-2xl">
-
+                    <img src="{{ $article->thumbnail }}" class="rounded-2xl">
                 </div>
+                @else
                 <x-jet-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail" value="{{ old('thumbnail', $article->thumbnail) }}" />
+                @endif
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -61,4 +66,6 @@
     @endsection
 @section('scripts')
     @include('ckeditor')
+    @include('filepond')
+    @include('select2')
 @endsection

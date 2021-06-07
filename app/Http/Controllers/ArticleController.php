@@ -8,10 +8,6 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\TemporaryFile;
 use Illuminate\Support\Facades\Storage;
-// use Spatie\MediaLibrary\HasMedia;
-// use Spatie\MediaLibrary\InteractsWithMedia;
-// use Spatie\MediaLibrary\toMediaCollection;
-// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ArticleController extends Controller
 {
@@ -52,15 +48,13 @@ class ArticleController extends Controller
             'tag_id' => 'nullable',
             'paragraph' => 'required',
         ]);
-        // $thumbnail = $request->file('thumbnail');
-        // $thumbnail->storeAs('public/thumbnails', $thumbnail->hashName());
         $article = Article::create([
             'title' => $request->title,
             'category_id' => $request->category_id,
             'tag_id' => $request->tag_id,
             'paragraph' => $request->paragraph,
         ]);
-
+        $article->tags()->attach(request('tags'));
             if($request->thumbnail)
             {
                 $temporaryFile = TemporaryFile::where('folder', $request->thumbnail)->first();
@@ -73,11 +67,9 @@ class ArticleController extends Controller
 
                 $article->update(['thumbnail' => $thumbnail->getUrl()]);
             }
-
-        if($article)
-        {
+            $request->session()->flash('flash.banner', 'Created!');
             return redirect()->route('articles.index');
-        }
+
     }
 
     /**
@@ -99,10 +91,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        // $data = Article::findOrFail($article);
-        // dd($data);
-        $categories = Category::all();
-        $tags = Tag::all();
+        $categories = Category::get();
+        $tags = Tag::get();
         return view('article-edit', compact(['article', 'categories', 'tags']));
     }
 
@@ -116,43 +106,41 @@ class ArticleController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'title'         => 'required',
-            'thumbnail'      => 'nullable|image|mimes:png,jpg,jpeg',
-            'category_id'   => 'nullable',
-            'tag_id'        => 'nullable',
-            'paragraph'     => 'required'
+            'title' => 'required',
+            'category_id' => 'nullable',
+            'paragraph' => 'required',
         ]);
 
         $article = Article::findOrFail($request->article);
+        if($request->thumbnail) {
+            // Storage::delete($article->thumbnail);
+            $temporaryFile = TemporaryFile::where('folder', $request->thumbnail)->first();
+                if($temporaryFile){
+                $thumbnail = $article->addMedia(storage_path('app/public/thumbnails/tmp/' . $request->thumbnail . '/' . $temporaryFile->filename))
+                        ->toMediaCollection('thumbnails');
+                    rmdir(storage_path('app/public/thumbnails/tmp/' . $request->thumbnail));
+                    $temporaryFile->delete();
+                }
+                $thumbnail_url = $thumbnail->getUrl();
 
-        if(!$request->file('thumbnail')) {
-
+            $article->update([
+                'title'        => $request->title,
+                'category_id'  => $request->category_id,
+                'tag_id'       => $request->tag_id,
+                'paragraph'    => $request->paragraph,
+                'thumbnail' => $thumbnail_url,
+            ]);
+        } else {
             $article->update([
                 'title'         => $request->title,
                 'thumbnail'      => $request->thumbnail,
                 'category_id'   => $request->category_id,
-                'tag_id'        => $request->tag_id,
-                'paragraph'     => $request->paragraph
+                'paragraph'     => $request->paragraph,
+                'thumbnail'     => $article->thumbnail,
             ]);
-
-        } else {
-
-            //hapus old image
-            Storage::delete($article->thumbnail);
-
-            //upload new image
-            $thumbnail = $request->file('thumbnail');
-            $thumbnail->storeAs('public/thumbnails/', $thumbnail->hashName());
-
-            $article->update([
-                'title'        => $request->title,
-                'thumbnail'    => $thumbnail->hashName(),
-                'category_id'  => $request->category_id,
-                'tag_id'       => $request->tag_id,
-                'paragraph'    => $request->paragraph,
-            ]);
-
+            $article->tags()->sync(request('tags'));
         }
+        $request->session()->flash('flash.banner', 'Updated!');
         return redirect()->route('articles.index');
 
     }
@@ -166,7 +154,7 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
-        // dd($article);
+        $article->tags()->detach();
         Storage::delete($article->thumbnail);
         $article->delete();
 

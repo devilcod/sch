@@ -16,7 +16,7 @@ class Tag extends Model
 
     public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->belongsToMany(Article::class);
     }
 
     public function getSlugOptions() : SlugOptions
