@@ -20,15 +20,15 @@ class Settings extends Component
     public $logo;
     public $newLogo;
 
-    protected $rules = [
-        'name' => 'required',
-        'address' => 'required',
-        'phone' => 'required',
-        'email' => 'required|email',
-        'accreditation' => 'required',
-        'npsn' => 'required',
-        'logo' => 'nullable|image',
-    ];
+    // protected $rules = [
+    //     'name' => 'required',
+    //     'address' => 'required',
+    //     'phone' => 'required',
+    //     'email' => 'required|email',
+    //     'accreditation' => 'required',
+    //     'npsn' => 'required',
+    //     'logo' => 'nullable|image',
+    // ];
     public function mount()
     {
         $setting = Setting::first();
@@ -47,10 +47,33 @@ class Settings extends Component
     }
     public function updateSetting()
         {
-            $validatedData = $this->validate();
-            $logo_name = $this->logo->store('logos', 'public');
-            $validatedData['logo'] = $logo_name;
-            Setting::first()->update($validatedData);
+            $setting = Setting::first();
+            if($this->logo == $setting->logo){
+                $validatedData = $this->validate([
+                    'name' => 'required',
+                    'address' => 'required',
+                    'phone' => 'required',
+                    'email' => 'required|email',
+                    'accreditation' => 'required',
+                    'npsn' => 'required',
+                    'logo' => 'nullable',
+                ]);
+                }else{
+                    $validatedData = $this->validate([
+                        'name' => 'required',
+                        'address' => 'required',
+                        'phone' => 'required',
+                        'email' => 'required|email',
+                        'accreditation' => 'required',
+                        'npsn' => 'required',
+                        'logo' => 'nullable|image',
+                    ]);
+                        Storage::delete($setting->logo);
+                        $logo_name = $this->logo->store('logos', 'public');
+                        $validatedData['logo'] = $logo_name;
+                }
+
+            $setting->update($validatedData);
         }
 
         public function updatedLogo()
