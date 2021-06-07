@@ -123,6 +123,9 @@
                                     {{ __('Log Out') }}
                                 </x-jet-dropdown-link>
                             </form>
+                            <x-jet-dropdown-link href="{{ route('settings') }}">
+                                {{ __('School Setting') }}
+                            </x-jet-dropdown-link>
                         </x-slot>
                     </x-jet-dropdown>
                 </div>

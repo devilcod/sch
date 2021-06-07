@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
-<div class="flex flex-col">
+<div class="flex p-2 mt-2">
+    <x-jet-button type="button"><a href="{{ route('articles.create') }}">Create</a></x-jet-button>
+</div>
+<div class="flex flex-col p-2">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
       <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
