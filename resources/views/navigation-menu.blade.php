@@ -110,7 +110,10 @@
                                     {{ __('API Tokens') }}
                                 </x-jet-dropdown-link>
                             @endif
-
+                            <x-jet-dropdown-link href="{{ route('settings') }}">
+                                {{ __('School Setting') }}
+                            </x-jet-dropdown-link>
+                            
                             <div class="border-t border-gray-100"></div>
 
                             <!-- Authentication -->
@@ -123,9 +126,6 @@
                                     {{ __('Log Out') }}
                                 </x-jet-dropdown-link>
                             </form>
-                            <x-jet-dropdown-link href="{{ route('settings') }}">
-                                {{ __('School Setting') }}
-                            </x-jet-dropdown-link>
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
