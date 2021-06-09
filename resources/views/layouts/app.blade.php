@@ -17,7 +17,7 @@
         <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
         {{-- select2 --}}
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        
+
         {{-- @fcStyles --}}
         @livewireStyles
 
@@ -52,10 +52,11 @@
         </div>
 
         @stack('modals')
+        {{-- Livewire Ui --}}
+        @livewire('livewire-ui-modal')
+        @livewireUIScripts
 
-        {{-- @fcScripts --}}
         @livewireScripts
-        {{-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script> --}}
         @yield('scripts')
     </body>
 </html>

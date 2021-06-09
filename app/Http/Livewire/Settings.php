@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Setting;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 
 class Settings extends Component
 {
@@ -88,6 +87,7 @@ class Settings extends Component
         }
         public function refresh()
         {
-            return view('livewire.settings')->with(session()->flash('flash.banner', 'Yay it works!'));
+            session()->flash('flash.banner', 'Yay it works!');
+            return view('livewire.settings');
         }
 }

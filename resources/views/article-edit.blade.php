@@ -1,10 +1,10 @@
-@extends('layouts.app')
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Modify an Article') }}
+        </h2>
+    </x-slot>
     <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
-
         <x-jet-validation-errors class="mb-4" />
 
         <form action="{{ route('articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
@@ -17,12 +17,13 @@
 
             <div>
                 <x-jet-label for="name" value="{{ __('Category') }}" />
-                <select class="block mt-1 w-full" id="category_id" name="category_id">
+                <select class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="category_id" name="category_id">
                     <option value="" selected disabled>Choose One</option>
                     @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ $category->id == $article->category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ $article->category !== NULL && $category->id == $article->category->id  ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
+                <button onclick="Livewire.emit('openModal', 'category.create-category')" type="button">Add New</button>
             </div>
 
             <div>
@@ -35,6 +36,7 @@
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
                 </select>
+                <button onclick="Livewire.emit('openModal', 'tag.create-tag')" type="button">Add New</button>
             </div>
 
             <div class="mt-4">
@@ -63,9 +65,9 @@
             </div>
         </form>
     </x-jet-authentication-card>
-    @endsection
 @section('scripts')
     @include('ckeditor')
     @include('filepond')
     @include('select2')
 @endsection
+</x-app-layout>

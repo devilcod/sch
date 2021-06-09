@@ -13,6 +13,7 @@
         "laravel/jetstream": "^2.3",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
+        "livewire-ui/modal": "^0.1.5",
         "livewire/livewire": "^2.0",
         "rawilk/laravel-form-components": "^2.0",
         "spatie/laravel-medialibrary": "^9.0.0",

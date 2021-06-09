@@ -15,23 +15,25 @@
                 <x-jet-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" required autofocus autocomplete="title" />
             </div>
 
-            <div>
+            <div class="mt-5">
                 <x-jet-label for="name" value="{{ __('Category') }}" />
-                <select class="block mt-1 w-full" id="category_id" name="category_id">
+                <select class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="category_id" name="category_id">
                     <option value="" selected disabled>Choose One</option>
                     @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
+                <button onclick="Livewire.emit('openModal', 'category.create-category')" type="button" class="text-sm text-indigo-600 hover:text-indigo-900">Add New</button>
             </div>
 
-            <div>
+            <div class="mt-5">
                 <x-jet-label for="name" value="{{ __('Tag') }}" />
-                <select class="select2 block mt-1 w-full" id="tags" name="tags[]" multiple="multiple">
+                <select class="select2 block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="tags" name="tags[]" multiple="multiple">
                     @foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
                 </select>
+                <button onclick="Livewire.emit('openModal', 'tag.create-tag')" type="button" class="text-sm text-indigo-600 hover:text-indigo-900">Add New</button>
             </div>
 
             <div class="mt-4">

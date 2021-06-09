@@ -14,6 +14,7 @@ class Tag extends Model
 
     protected $fillable = ['name', 'slug'];
 
+
     public function articles()
     {
         return $this->belongsToMany(Article::class);
@@ -26,8 +27,8 @@ class Tag extends Model
             ->saveSlugsTo('slug');
     }
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+    // public function getRouteKeyName()
+    // {
+    //     return 'slug';
+    // }
 }

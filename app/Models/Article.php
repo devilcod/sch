@@ -41,10 +41,10 @@ class Article extends Model implements HasMedia
             ->saveSlugsTo('slug');
     }
 
-    // public function getRouteKeyName()
-    // {
-    //     return 'slug';
-    // }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function registerMediaCollections(): void
 {

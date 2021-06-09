@@ -16,7 +16,7 @@ class CreateArticleTagTable extends Migration
         Schema::create('article_tag', function (Blueprint $table) {
             $table->foreignId('article_id');
             $table->foreignId('tag_id');
-            $table->primary(['post_id','tag_id']);
+            $table->primary(['article_id','tag_id']);
         });
     }
 

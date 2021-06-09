@@ -7,6 +7,11 @@ use  App\Models\Article;
 
 class ArticleIndex extends Component
 {
+    public $listeners = [
+        'categoriesUpdated' => 'render',
+        'tagsUpdated' => 'render'
+    ];
+
     public function render()
     {
         $articles = Article::all();
