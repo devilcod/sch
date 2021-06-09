@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Category;
 
 use App\Models\Category;
 use LivewireUI\Modal\ModalComponent;
+use App\Http\Livewire\Tag\IndexTag;
+use App\Http\Livewire\Article\ArticleIndex;
 
 class CreateCategory extends ModalComponent
 {
@@ -21,7 +23,8 @@ public $name;
         $data = $this->validate();
         Category::create($data);
         $this->reset();
-        $this->closeModal();
-        // return redirect()->route('articles.create');
+        $this->closeModalWithEvents(['categoriesUpdated',
+        IndexTag::getName() => 'categoriessUpdated',
+        ArticleIndex::getName() => 'categoriesUpdated']);
     }
 }

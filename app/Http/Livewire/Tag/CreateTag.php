@@ -4,7 +4,8 @@ namespace App\Http\Livewire\Tag;
 
 use App\Models\Tag;
 use LivewireUI\Modal\ModalComponent;
-
+use App\Http\Livewire\Tag\IndexTag;
+USE App\Http\Livewire\Article\ArticleIndex;
 
 class CreateTag extends ModalComponent
 {
@@ -20,10 +21,19 @@ class CreateTag extends ModalComponent
     public function addTag()
     {
         $data = $this->validate();
-        Tag::create($data);
+        $tags = explode(',', $data['name']);
+        foreach ($tags as $tag) {
+            $itemTag = Tag::where('name', trim($tag))->first();
+
+            if (!$itemTag) {
+                $itemTag = Tag::create(['name' => trim($tag)]);
+            }
+
+        }
         $this->reset();
-        $this->closeModal();
-        // return redirect()->route('articles.create');
+        $this->closeModalWithEvents(['tagsUpdated',
+        IndexTag::getName() => 'tagsUpdated',
+        ArticleIndex::getName() => 'tagsUpdated']);
     }
 
 }

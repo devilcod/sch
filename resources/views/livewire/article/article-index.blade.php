@@ -1,4 +1,3 @@
-<div>
     <div class="p-2 mt-2">
         <x-jet-button type="button"><a href="{{ route('articles.create') }}">Create New Article</a></x-jet-button>
         <x-jet-secondary-button wire:click="$emit('openModal', 'category.index-category')">{{ __('View All Categories') }}</x-jet-secondary-button>
@@ -63,4 +62,3 @@
         </div>
       </div>
     </div>
-</div>

@@ -4,12 +4,10 @@
             {{ __('Create Article') }}
         </h2>
     </x-slot>
-    <x-jet-authentication-card>
+    <div class="px-4 py-5 mx-5 rounded my-5 bg-white sm:p-6 shadow ">
+    <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
         <x-jet-validation-errors class="mb-4" />
-
-        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
             <div>
                 <x-jet-label for="name" value="{{ __('Tite') }}" />
                 <x-jet-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" required autofocus autocomplete="title" />
@@ -37,7 +35,7 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="paragraph" value="{{ __('Body') }}" />
+                <x-jet-label for="paragraph" value="{{ __('Content Body') }}" />
                 <div>
                 <textarea id="paragraph" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" type="text" name="paragraph" required >
                 </textarea>
@@ -46,20 +44,18 @@
 
             <div class="mt-4">
                 <x-jet-label for="thumbnail" value="{{ __('Thumbnail') }}" />
-                {{-- <div class="flex box-content h-32 w-32 bg-gray-200 rounded-2xl">
 
-                </div> --}}
                 <x-jet-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail" :value="old('thumbnail')" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
 
-                <x-jet-button class="ml-4">
+                <x-jet-button class="ml-4" type="submit">
                     {{ __('Create') }}
                 </x-jet-button>
             </div>
-        </form>
-    </x-jet-authentication-card>
+    </form>
+    </div>
 @section('scripts')
     @include('ckeditor')
     @include('filepond')
