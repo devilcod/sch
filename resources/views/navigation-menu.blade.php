@@ -21,6 +21,11 @@
                         {{ __('Articles') }}
                     </x-jet-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('events') }}" :active="request()->routeIs('events')">
+                        {{ __('Events and Calendar') }}
+                    </x-jet-nav-link>
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -113,7 +118,7 @@
                             <x-jet-dropdown-link href="{{ route('settings') }}">
                                 {{ __('School Setting') }}
                             </x-jet-dropdown-link>
-                            
+
                             <div class="border-t border-gray-100"></div>
 
                             <!-- Authentication -->
@@ -155,6 +160,11 @@
                 {{ __('Articles') }}
             </x-jet-responsive-nav-link>
         </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('events') }}" :active="request()->routeIs('events')">
+                {{ __('Events and Calendar') }}
+            </x-jet-responsive-nav-link>
+        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -182,6 +192,9 @@
                         {{ __('API Tokens') }}
                     </x-jet-responsive-nav-link>
                 @endif
+                <x-jet-responsive-nav-link href="{{ route('settings') }}" :active="request()->routeIs('settings')">
+                        {{ __('School Settings') }}
+                    </x-jet-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
