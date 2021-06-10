@@ -12,13 +12,18 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
         {{-- filepond --}}
         <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
         <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+
         {{-- select2 --}}
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-        {{-- @fcStyles --}}
+        {{-- flatpickr --}}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
         @livewireStyles
 
         <!-- Scripts -->
@@ -57,6 +62,8 @@
         @livewireUIScripts
 
         @livewireScripts
+        {{-- livewirecalendar --}}
+        @livewireCalendarScripts
         @yield('scripts')
     </body>
 </html>
