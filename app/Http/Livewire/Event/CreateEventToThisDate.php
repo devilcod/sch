@@ -6,7 +6,7 @@ use LivewireUI\Modal\ModalComponent;
 use App\Models\Event;
 use App\Http\Livewire\Event\Events;
 
-class CreateEvent extends ModalComponent
+class CreateEventToThisDate extends ModalComponent
 {
     public $title;
     public $description;
@@ -18,7 +18,13 @@ class CreateEvent extends ModalComponent
         'description' => 'required',
         'scheduled_at' => 'required',
     ];
-    
+    public function mount($date)
+    {
+        if($date)
+        {
+            $this->scheduled_at = $this->date;
+        }
+    }
     public static function modalMaxWidth(): string
     {
         return 'sm';
@@ -26,10 +32,10 @@ class CreateEvent extends ModalComponent
 
     public function render()
     {
-        return view('livewire.event.create-event');
+        return view('livewire.event.create-event-to-this-date');
     }
 
-    public function addEvent()
+    public function setEvent()
     {
         $data = $this->validate();
         Event::create($data);

@@ -6,11 +6,11 @@ use App\Models\Event;
 use Asantibanez\LivewireCalendar\LivewireCalendar;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Livewire\Livewire;
 
 class AppointmentsCalendar extends LivewireCalendar
 {
-    // public string $date;
+    public $beforeCalendarView = true;
+    public $selection;
     public $listeners = ['eventsUpdated' => 'events'];
 
     public function events(): Collection
@@ -32,7 +32,7 @@ class AppointmentsCalendar extends LivewireCalendar
     public function onDayClick($year, $month, $day)
     {
         $date = "$year-$month-$day";
-        $this->emit("openModal", "event.create-event", ["date" => $date]);
+        $this->emit("openModal", "event.create-event-to-this-date", ["date" => $date]);
     }
 
     public function onEventClick($eventId)
@@ -43,8 +43,40 @@ class AppointmentsCalendar extends LivewireCalendar
 
     public function onEventDropped($eventId, $year, $month, $day)
     {
-        $event = Event::find($eventId);
+        $event = Event::findOrFail($eventId);
         $this->date = "$year-$month-$day";
         $event->update(['scheduled_at' => $this->date]);
+    }
+    public function goToPreviousMonth()
+    {
+        $this->startsAt->subMonthNoOverflow();
+        $this->endsAt->subMonthNoOverflow();
+
+        $this->calculateGridStartsEnds();
+        $this->selection = '';
+    }
+
+    public function goToNextMonth()
+    {
+        $this->startsAt->addMonthNoOverflow();
+        $this->endsAt->addMonthNoOverflow();
+
+        $this->calculateGridStartsEnds();
+        $this->selection = '';
+    }
+
+    public function goToCurrentMonth()
+    {
+        $this->startsAt = Carbon::today()->startOfMonth()->startOfDay();
+        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+
+        $this->calculateGridStartsEnds();
+        $this->selection = '';
+    }
+    public function findByDate()
+    {
+       $this->startsAt = Carbon::createFromDate($this->selection)->startOfMonth()->startOfDay();
+       $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+       $this->calculateGridStartsEnds();
     }
 }
