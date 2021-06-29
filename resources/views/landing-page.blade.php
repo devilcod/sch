@@ -19,8 +19,13 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body>
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
+<!-- This example requires Tailwind CSS v2.0+ -->
+        @include('hero-banner')
+        <div class="bg-gray-100 py-2 mt-5">
+            @include('feature-section')
+        </div>
+        <div class="mt-5">
+            @include('article-section')
         </div>
     </body>
 </html>

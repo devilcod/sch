@@ -13,9 +13,10 @@
         </x-slot>
 
         <x-slot name="buttons">
-            <x-jet-button>
+            <x-jet-button type="submit">
                 {{ __('Create') }}
             </x-jet-button>
+            <x-jet-secondary-button type="button" wire:click="$emit('closeModal')" class="ml-4"> {{ __('Cancel') }} </x-jet-secondary-button>
         </x-slot>
     </x-modal>
 </div>

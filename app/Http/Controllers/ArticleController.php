@@ -16,10 +16,6 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('article-index');
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -67,7 +63,7 @@ class ArticleController extends Controller
                 $article->update(['thumbnail' => $thumbnail->getUrl()]);
             }
             $request->session()->flash('flash.banner', 'Created!');
-            return redirect()->route('articles.index');
+            return redirect()->route('article.index');
 
     }
 
@@ -108,11 +104,12 @@ class ArticleController extends Controller
             'title' => 'required',
             'category_id' => 'nullable',
             'paragraph' => 'required',
+            'thumbnail' => 'required',
         ]);
 
         $article = Article::findOrFail($request->article);
-        if($request->thumbnail) {
-            // Storage::delete($article->thumbnail);
+        if($request->thumbnail != $article->thumbnail) {
+            Storage::delete($article->thumbnail);
             $temporaryFile = TemporaryFile::where('folder', $request->thumbnail)->first();
                 if($temporaryFile){
                 $thumbnail = $article->addMedia(storage_path('app/public/thumbnails/tmp/' . $request->thumbnail . '/' . $temporaryFile->filename))
@@ -120,14 +117,13 @@ class ArticleController extends Controller
                     rmdir(storage_path('app/public/thumbnails/tmp/' . $request->thumbnail));
                     $temporaryFile->delete();
                 }
-                $thumbnail_url = $thumbnail->getUrl();
-
+            // $thumbnail_url = $thumbnail->getUrl();
             $article->update([
                 'title'        => $request->title,
                 'category_id'  => $request->category_id,
                 'tag_id'       => $request->tag_id,
                 'paragraph'    => $request->paragraph,
-                'thumbnail' => $thumbnail_url,
+                'thumbnail' => $thumbnail->getUrl(),
             ]);
         } else {
             $article->update([
@@ -140,7 +136,7 @@ class ArticleController extends Controller
             $article->tags()->sync(request('tags'));
         }
         $request->session()->flash('flash.banner', 'Updated!');
-        return redirect()->route('articles.index');
+        return redirect()->route('article.index');
 
     }
 
@@ -150,13 +146,5 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $article = Article::findOrFail($id);
-        $article->tags()->detach();
-        Storage::delete($article->thumbnail);
-        $article->delete();
-
-        return redirect()->route('articles.index');
-    }
+ 
 }

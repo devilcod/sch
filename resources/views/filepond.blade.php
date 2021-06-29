@@ -3,7 +3,7 @@
 
 <script>
     FilePond.registerPlugin(FilePondPluginImagePreview);
-    
+
     const inputElement = document.querySelector('input[id="thumbnail"]');
     const pond = FilePond.create( inputElement );
     // FilePond.registerPlugin(
@@ -14,10 +14,13 @@
     //     );
     FilePond.setOptions({
             server: {
-            url: '/upload',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
+            url: 'http://127.0.0.1:8000',
+            process: {
+                url: '/upload/store',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
         }
     });
 </script>

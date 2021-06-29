@@ -1,64 +1,56 @@
-    <div class="p-2 mt-2">
+<div>
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('All Article') }}
+    </h2>
+</x-slot>
+   <div class="flex p-2 mt-2">
         <x-jet-button type="button"><a href="{{ route('articles.create') }}">Create New Article</a></x-jet-button>
         <x-jet-secondary-button wire:click="$emit('openModal', 'category.index-category')">{{ __('View All Categories') }}</x-jet-secondary-button>
         <x-jet-secondary-button wire:click="$emit('openModal', 'tag.index-tag')">{{ __('View All Tags') }}</x-jet-secondary-button>
+        <div class="bg-white shadow ml-5 flex justify-end">
+            <input wire:model="search" class="w-full rounded" type="text" placeholder="search something"/>
+            <button wire:click="$emit('beginSearch')" type="submit" class="bg-red-400 hover:bg-red-300 rounded text-white ml-2 pl-4 pr-4">
+                    <p class="font-semibold text-xs">Search</p>
+            </button>
+        </div>
     </div>
-    <div class="flex flex-col mr-5">
-      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Title
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Tag
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Thumbnail
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-              @foreach($articles as $article)
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">{{ $article->title }}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">@if(!null == $article->category){{$article->category->name}}@else NULL @endif</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                      @foreach ($article->tags as $tag )
-                      <div class="text-sm text-gray-900">{{$tag->name}}</div>
-                      @endforeach
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="{{ $article->thumbnail }}"></div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <a href="{{ route('articles.edit', $article) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                    <span>|</span>
-                    <form action="{{ route('articles.destroy', $article->id ) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-indigo-600 hover:text-indigo-900">Hapus</button>
-                    </form>
-                  </td>
-                </tr>
-              @endforeach
-              </tbody>
-            </table>
+    <section class="text-blueGray-700 ">
+        <div class="container items-center px-5 py-8 mx-auto lg:px-24">
+          <div class="flex flex-wrap mb-12 text-left">
+            @foreach ($articles as $article)
+            <div class="w-full mx-auto lg:w-1/3">
+                <div class="p-6">
+                    <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36" src="{{ $article->thumbnail }}" alt="blog">
+                    <h2 class="mb-8 text-xs font-semibold tracking-widest text-black uppercase title-font">@foreach ($article->tags as $tag)
+                        {{ $tag->name }}
+                    @endforeach
+                    </h2>
+                    <h2 class="mb-8 text-xs font-semibold tracking-widest text-black uppercase title-font">@if(!null == $article->category){{$article->category->name}}@else NULL @endif</h2>
+                    <a href="{{ route('articles.edit', $article) }}" class="mx-auto mb-4 text-2xl font-semibold leading-none tracking-tighter text-black lg:text-3xl title-font"> {{ $article->title }} </a>
+                    <p class="mx-auto text-base font-medium leading-relaxed text-blueGray-700 ">{!! Str::limit($article->paragraph, 70, '...') !!}</p>
+                    <div wire:poll>
+                        <p class="inline-flex items-center mt-auto font-semibold text-blue-600 lg:mb-0 hover:text-black " title="read more"> {{ $article->updated_at->diffForHumans() }} </p>
+                    </div>
+                    <div class="py-2 inline-block item-center justify-end gird-cols">
+                        <button wire:click="deleteArticle({{ $article->id }})" class="ml-auto text-red-600 hover:text-black" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+                            </svg>
+                        </button>
+                            {{-- <button wire:click="$emit('openModal', 'article.article-delete', {{ json_encode(['article' => $article->id]) }})" class="ml-auto text-red-600 hover:text-black" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+                                </svg>
+                            </button> --}}
+                    </div>
+                  </div>
+            </div>
+        @endforeach
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+</div>
+

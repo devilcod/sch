@@ -1,6 +1,6 @@
 @props(['formAction' => false])
 
-<div>
+<div class="overflow-auto min-h-lg">
     @if($formAction)
         <form wire:submit.prevent="{{ $formAction }}">
     @endif

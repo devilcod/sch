@@ -5,4 +5,11 @@
 $(document).ready(function() {
     $('.select2').select2();
 });
+
+window.addEventListener('tagsUpdated', event => {
+    location.reload();
+});
+window.addEventListener('categoriesUpdated', event => {
+    location.reload();
+});
 </script>
