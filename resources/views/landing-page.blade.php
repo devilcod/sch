@@ -25,7 +25,7 @@
             @include('feature-section')
         </div>
         <div class="mt-5">
-            @include('article-section')
+            @livewire('news.news')
         </div>
     </body>
 </html>

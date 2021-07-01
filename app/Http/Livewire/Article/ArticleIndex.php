@@ -10,6 +10,7 @@ class ArticleIndex extends Component
 {
     public $search;
     public $articles;
+    public $amount_data = 3;
 
     protected $updatesQueryString = [
         ['page' => ['except' => 1]],
@@ -25,7 +26,7 @@ class ArticleIndex extends Component
 
     public function render()
     {
-        $this->articles = Article::where('title', 'like', '%'.$this->search.'%')->get();
+        $this->articles = Article::where('title', 'like', '%'.$this->search.'%')->take($this->amount_data)->orderBy('updated_at','desc')->get();
         return view('livewire.article.article-index', ['articles' => $this->articles]);
     }
 
@@ -36,5 +37,9 @@ class ArticleIndex extends Component
         Storage::delete($article->thumbnail);
         $article->delete();
         $this->emit('articlesUpdated');
+    }
+    public function load()
+    {
+        $this->amount_data += 3;
     }
 }

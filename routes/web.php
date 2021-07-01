@@ -4,12 +4,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Livewire\Article\ArticleIndex;
 use App\Http\Livewire\Event\Events;
+use App\Http\Livewire\News\NewsRead;
 use App\Http\Livewire\Settings;
+use App\Http\Livewire\Category\CategoryRelated;
+use App\Http\Livewire\News\NewsIndex;
+use App\Http\Livewire\Tag\TagRelated;
 
 
 Route::get('/', function () {
     return view('landing-page');
 });
+Route::get('/read/{article}', NewsRead::class)->name('news.show');
+Route::get('/articles', NewsIndex::class)->name('news.index');
+Route::get('/category/{category:slug}/articles', CategoryRelated::class)->name('category.related');
+Route::get('/tag/{tag:slug}/articles', TagRelated::class)->name('tag.related');
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/', function () { return view('dashboard');})->name('dashboard');
     Route::get('/articles', ArticleIndex::class)->name('article.index');
