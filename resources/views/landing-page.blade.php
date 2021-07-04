@@ -14,9 +14,11 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
     </head>
     <body>
 <!-- This example requires Tailwind CSS v2.0+ -->
@@ -27,6 +29,22 @@
         <div class="mt-5">
             @livewire('news.news')
         </div>
-        @include('layouts.partial.footer')
+        <div wire:ignore id='map' style='width: 400px; height: 300px;'></div>
+            <script>
+                mapboxgl.accessToken = '{{env("MAPBOX_KEY")}}';
+                var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [98.78251659386517, 3.538593997145626],
+                zoom: 11.15,
+                attributionControl: false
+                });
+                map.addControl(new mapboxgl.AttributionControl(), 'top-left');
+
+                var marker1 = new mapboxgl.Marker()
+                .setLngLat([98.78251659386517, 3.538593997145626])
+                .addTo(map);
+            </script>
+            @include('layouts.partial.footer')
     </body>
 </html>
