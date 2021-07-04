@@ -23,6 +23,7 @@ public $name;
         $data = $this->validate();
         Category::create($data);
         $this->reset();
+        $this->dispatchBrowserEvent('categoriesUpdated');
         $this->closeModalWithEvents(['categoriesUpdated',
         IndexTag::getName() => 'categoriessUpdated',
         ArticleIndex::getName() => 'categoriesUpdated']);

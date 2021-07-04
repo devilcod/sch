@@ -49,13 +49,14 @@
 
             <div class="mt-4">
                 <x-jet-label for="thumbnail" value="{{ __('Thumbnail') }}" />
-                @if (isset($article->thumbnail))
+                <x-jet-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail"  />
+                {{-- @if (isset($article->thumbnail))
                 <div class="flex box-content h-32 w-32 bg-gray-200 rounded-2xl">
                     <img src="{{ $article->thumbnail }}" class="rounded-2xl">
                 </div>
                 @else
                 <x-jet-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail" value="{{ old('thumbnail', $article->thumbnail) }}" />
-                @endif
+                @endif --}}
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -68,7 +69,7 @@
     </div>
 @section('scripts')
     @include('ckeditor')
-    @include('filepond')
+    @include('filepond-show')
     @include('select2')
 @endsection
 </x-app-layout>

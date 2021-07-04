@@ -31,6 +31,7 @@ class CreateTag extends ModalComponent
 
         }
         $this->reset();
+        $this->dispatchBrowserEvent('tagsUpdated');
         $this->closeModalWithEvents(['tagsUpdated',
         IndexTag::getName() => 'tagsUpdated',
         ArticleIndex::getName() => 'tagsUpdated']);

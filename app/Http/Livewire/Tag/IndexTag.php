@@ -7,7 +7,8 @@ use App\Models\Tag;
 
 class IndexTag extends ModalComponent
 {
-
+    public $search;
+    public $tags;
     public $listeners = ['tagsUpdated' => 'render'];
 
     public static function modalMaxWidth(): string
@@ -17,7 +18,7 @@ class IndexTag extends ModalComponent
 
     public function render()
     {
-        $tags = Tag::all();
-        return view('livewire.tag.index-tag', compact('tags'));
+        $this->tags = Tag::where('name', 'like', '%'.$this->search.'%')->get();
+        return view('livewire.tag.index-tag', ['tags' => $this->tags]);
     }
 }

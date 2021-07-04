@@ -7,6 +7,8 @@ use App\Models\Category;
 
 class IndexCategory extends ModalComponent
 {
+    public $search;
+    public $categories;
     public $listeners = [
         'categoriesUpdated' => 'render'];
 
@@ -17,7 +19,7 @@ class IndexCategory extends ModalComponent
 
     public function render()
     {
-        $categories = Category::all();
-        return view('livewire.category.index-category', compact('categories'));
+        $this->categories = Category::where('name', 'like', '%'.$this->search.'%')->get();
+        return view('livewire.category.index-category', ['categories' => $this->categories]);
     }
 }

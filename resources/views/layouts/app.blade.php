@@ -57,11 +57,12 @@
         </div>
 
         @stack('modals')
+        @livewireScripts
         {{-- Livewire Ui --}}
         @livewire('livewire-ui-modal')
         @livewireUIScripts
 
-        @livewireScripts
+
         {{-- livewirecalendar --}}
         @livewireCalendarScripts
         @yield('scripts')

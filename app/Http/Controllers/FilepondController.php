@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
+use App\Models\Article;
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FilepondController extends Controller
 {
@@ -25,5 +28,11 @@ class FilepondController extends Controller
         }
 
         return '';
+    }
+    public function show(Request $request, Article $article)
+    {
+        $article = Article::findOrFail($article);
+        $file = Storage::get($article->thumbnail);
+        return $file;
     }
 }

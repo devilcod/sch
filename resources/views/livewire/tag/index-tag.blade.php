@@ -3,6 +3,7 @@
         All Tags
     </x-slot>
 <x-slot name="content">
+    <x-jet-input type="text" class="mt-1 block w-full" placeholder="search here" wire:model="search"></x-jet-input>
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
             <tr>
