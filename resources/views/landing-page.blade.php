@@ -27,5 +27,6 @@
         <div class="mt-5">
             @livewire('news.news')
         </div>
+        @include('layouts.partial.footer')
     </body>
 </html>

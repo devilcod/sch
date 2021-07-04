@@ -7,9 +7,20 @@ use App\Models\Article;
 
 class NewsIndex extends Component
 {
+    public $search;
+    // public $articles;
+    public $amount_data = 6;
+
+    protected $queryString = ['search' => ['except' => '']];
+
     public function render()
     {
-        $articles = Article::with(['category', 'tags'])->get();
-        return view('livewire.news.news-index', compact('articles'))->layout('layouts.read');
+        $articles = Article::where('title', 'like', '%'.$this->search.'%')->take($this->amount_data)->orderBy('updated_at','desc')->get();
+        return view('livewire.news.news-index', ['articles' => $articles])->extends('layouts.read');
+    }
+
+    public function load_more()
+    {
+        $this->amount_data += 6;
     }
 }

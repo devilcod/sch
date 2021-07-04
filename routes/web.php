@@ -16,8 +16,8 @@ Route::get('/', function () {
 });
 Route::get('/read/{article}', NewsRead::class)->name('news.show');
 Route::get('/articles', NewsIndex::class)->name('news.index');
-Route::get('/category/{category:slug}/articles', CategoryRelated::class)->name('category.related');
-Route::get('/tag/{tag:slug}/articles', TagRelated::class)->name('tag.related');
+Route::get('/articles/category/{category:slug}', CategoryRelated::class)->name('category.related');
+Route::get('/articles/tag/{tag:slug}', TagRelated::class)->name('tag.related');
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/', function () { return view('dashboard');})->name('dashboard');
     Route::get('/articles', ArticleIndex::class)->name('article.index');

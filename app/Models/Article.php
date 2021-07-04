@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-// use Spatie\MediaLibrary\toMediaCollection\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Article extends Model implements HasMedia
@@ -47,7 +46,7 @@ class Article extends Model implements HasMedia
     }
 
     public function registerMediaCollections(): void
-{
+    {
     $this
         ->addMediaCollection('images')
         ->registerMediaConversions(function (Media $media) {
@@ -56,5 +55,11 @@ class Article extends Model implements HasMedia
                 ->width(500)
                 ->height(500);
         });
-}
+    }
+
+    public function visits()
+    {
+        return visits($this)->relation();
+    }
+
 }

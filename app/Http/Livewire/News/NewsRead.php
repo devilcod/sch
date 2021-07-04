@@ -22,10 +22,11 @@ class NewsRead extends Component
         $this->tags = $article->tags;
         $this->thumbnail = $article->thumbnail;
         $this->paragraph = $article->paragraph;
+        visits($article)->increment();
     }
     public function render()
     {
         return view('livewire.news.news-read')
-        ->layout('layouts.read');
+        ->extends('layouts.read');
     }
 }

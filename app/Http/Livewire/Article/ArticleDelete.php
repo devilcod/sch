@@ -12,9 +12,15 @@ class ArticleDelete extends ModalComponent
 {
     public $articleId;
 
-    public function mount(Article $article)
+    public function mount($article)
     {
-        $this->articleId = $article;
+        $this->articleId = Article::findOrFail($article);
+    }
+
+
+    public function render()
+    {
+        return view('livewire.article.article-delete');
     }
 
     public function deleteArticle()
@@ -26,8 +32,4 @@ class ArticleDelete extends ModalComponent
         ArticleIndex::getName() => 'articlesUpdated']);
     }
 
-    public function render()
-    {
-        return view('livewire.article.article-delete');
-    }
 }

@@ -16,6 +16,6 @@ class TagRelated extends Component
     public function render()
     {
         $articles = $this->tag->articles()->get();
-        return view('livewire.tag.tag-related', ['articles' => $articles])->layout('layouts.read');
+        return view('livewire.tag.tag-related', ['articles' => $articles])->extends('layouts.read');
     }
 }

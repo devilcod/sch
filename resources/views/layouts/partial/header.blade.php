@@ -1,9 +1,8 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <div class="relative bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="min-w-screen mx-auto px-4 sm:px-6">
       <div class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
         <div class="flex justify-start lg:w-0 lg:flex-1">
-          <a href="#">
+          <a href="/">
             <span class="sr-only">Workflow</span>
             <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="">
           </a>
@@ -17,11 +16,11 @@
             </svg>
           </button>
         </div>
-        <div x-data="{open : false}">
+        <div x-data="{open : false, toggle() { this.open = ! this.open }}">
         <nav class="hidden md:flex space-x-10">
             <div class="relative">
             <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" -->
-            <button @click="open = true" type="button" class="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-expanded="false">
+            <button @click="toggle()" type="button" class="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-expanded="false">
               <span>Solutions</span>
               <!--
                 Heroicon name: solid/chevron-down
@@ -43,10 +42,16 @@
                 From: "opacity-100 translate-y-0"
                 To: "opacity-0 translate-y-1"
             -->
-
-            <div class="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+            <div x-show="open"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90">
+            <div class="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 ">
               <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 bg-opacity-50">
                   <a href="#" class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
                     <!-- Heroicon name: outline/chart-bar -->
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -146,6 +151,7 @@
                 </div>
               </div>
             </div>
+            </div>
         </nav>
           </div>
 
@@ -156,9 +162,10 @@
             Docs
           </a>
 
+          <div x-data="{open : false, toggle1() { this.open = ! this.open }}">
           <div class="relative">
             <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" -->
-            <button type="button" class="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-expanded="false">
+            <button @click="toggle1()" type="button" class="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-expanded="false">
               <span>More</span>
               <!--
                 Heroicon name: solid/chevron-down
@@ -180,9 +187,16 @@
                 From: "opacity-100 translate-y-0"
                 To: "opacity-0 translate-y-1"
             -->
-            {{-- <div class="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
+            <div x-show="open"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90">
+            <div class="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
               <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 bg-opacity-50">
                   <a href="#" class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
                     <!-- Heroicon name: outline/support -->
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -243,40 +257,14 @@
                     </div>
                   </a>
                 </div>
-                <div class="px-5 py-5 bg-gray-50 sm:px-8 sm:py-8">
-                  <div>
-                    <h3 class="text-sm tracking-wide font-medium text-gray-500 uppercase">
-                      Recent Posts
-                    </h3>
-                    <ul class="mt-4 space-y-4">
-                      <li class="text-base truncate">
-                        <a href="#" class="font-medium text-gray-900 hover:text-gray-700">
-                          Boost your conversion rate
-                        </a>
-                      </li>
-
-                      <li class="text-base truncate">
-                        <a href="#" class="font-medium text-gray-900 hover:text-gray-700">
-                          How to use search engine optimization to drive traffic to your site
-                        </a>
-                      </li>
-
-                      <li class="text-base truncate">
-                        <a href="#" class="font-medium text-gray-900 hover:text-gray-700">
-                          Improve your customer experience
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="mt-5 text-sm">
-                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> View all posts <span aria-hidden="true">&rarr;</span></a>
-                  </div>
-                </div>
               </div>
-            </div> --}}
+            </div>
+            </div>
+          </div>
           </div>
         </nav>
         <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+            <input class="w-full rounded mr-2" type="text" placeholder="search something"/>
           <a href="#" class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
             Sign in
           </a>
@@ -297,6 +285,7 @@
         From: "opacity-100 scale-100"
         To: "opacity-0 scale-95"
     -->
+    <div x-data="{ open : false, togglemd() { this.open = ! this.open } }">
     <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
       <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
         <div class="pt-5 pb-6 px-5">
@@ -305,7 +294,7 @@
               <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
             </div>
             <div class="-mr-2">
-              <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+              <button @click="togglemd()" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                 <span class="sr-only">Close menu</span>
                 <!-- Heroicon name: outline/x -->
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -314,6 +303,7 @@
               </button>
             </div>
           </div>
+          <div x-show="open" x-transition>
           <div class="mt-6">
             <nav class="grid gap-y-8">
               <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
@@ -407,5 +397,6 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
