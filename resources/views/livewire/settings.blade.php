@@ -83,6 +83,22 @@
                 <x-jet-input-error for="npsn" class="mt-2" />
             </div>
 
+            <!-- Accreditation -->
+            <div class="col-span-6 sm:col-span-4">
+                <x-jet-label for="npsn" value="{{ __('Longitude') }}" />
+                <x-jet-input id="npsn" type="text" class="mt-1 block w-full" wire:model="npsn" />
+                <x-jet-input-error for="npsn" class="mt-2" />
+            </div>
+
+            <!-- Accreditation -->
+            <div class="col-span-6 sm:col-span-4">
+                <x-jet-label for="npsn" value="{{ __('Latitude') }}" />
+                <x-jet-input id="npsn" type="text" class="mt-1 block w-full" wire:model="npsn" />
+                <x-jet-input-error for="npsn" class="mt-2" />
+            </div>
+
+            <div wire:ignore id='map' style='width: 400px; height: 300px;'></div>
+
         </x-slot>
 
         <x-slot name="actions">
@@ -95,5 +111,23 @@
             </x-jet-button>
         </x-slot>
     </x-jet-form-section>
+
+    @push('scripts')
+        <script>
+                mapboxgl.accessToken = '{{env("MAPBOX_KEY")}}';
+                var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [98.78251659386517, 3.538593997145626],
+                zoom: 11.15,
+                attributionControl: false
+                });
+                map.addControl(new mapboxgl.AttributionControl(), 'top-left');
+
+                var marker1 = new mapboxgl.Marker()
+                .setLngLat([98.78251659386517, 3.538593997145626])
+                .addTo(map);
+            </script>
+    @endpush
 
 </div>
